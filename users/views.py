@@ -20,12 +20,12 @@ class LoginView(TemplateView, View):
             # the password verified for the user
             if user.is_active:
                 login(request, user)
-                messages.success(request, "You are now logged in!")
+                messages.success(request, "Agora você está logado!")
             else:
-                messages.warning(request, "The password is valid, but the account has been disabled!")
+                messages.warning(request, "A senha é válida, mas a conta foi desativada!")
         else:
             # the authentication system was unable to verify the username and password
-            messages.warning(request, "The username and password were incorrect.")
+            messages.warning(request, "O nome de usuário e a senha estavam incorretos.")
 
         return redirect(request.POST.get('next', 'home'))
 
@@ -36,7 +36,7 @@ class LogoutView(View):
             return redirect('home')
 
         logout(request)
-        messages.success(request, "You are now logged out!")
+        messages.success(request, "Você está desconectado agora!")
         return redirect('home')
 
 
@@ -45,7 +45,7 @@ class RegisterView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
-            messages.warning(request, "You are already logged in!")
+            messages.warning(request, "Você já está logado!")
             return redirect('home')
         return self.render_to_response({'form': CustomUserCreationForm()})
 
@@ -53,7 +53,7 @@ class RegisterView(TemplateView):
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "You can now login!")
+            messages.success(request, "Já pode iniciar a sessão!")
             return redirect('home')
         else:
             return self.render_to_response({'form': form})
